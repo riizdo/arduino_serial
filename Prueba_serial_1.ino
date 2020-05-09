@@ -79,9 +79,9 @@ errorType parameter_read_serial(parameterListType *list) {
 //function parameter add///////////////////////////////////////////////////
 errorType parameter_add(parameterListType *list, int element) {
   if (list->nParameter == 0) {
-    list->parameter = (int*) malloc(sizeof(int));
+    list->parameter = (int*) malloc(sizeof(int));//assign the memory
   } else {
-    list->parameter = (int*) realloc(list->parameter, (list->nParameter + 1) * sizeof(int));
+    list->parameter = (int*) realloc(list->parameter, (list->nParameter + 1) * sizeof(int));//reassign the memory
   }
 
   if (list->parameter == NULL) {
