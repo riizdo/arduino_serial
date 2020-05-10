@@ -40,9 +40,15 @@ void setup() {
 //function loop/////////////////////////////////////////////////////////////*******************************************
 void loop() {
   if (Serial1.available() > 0) {
+    parameter_init(&parameterList);
     error = parameter_read_serial(&parameterList);
     parameter_print(parameterList);
-    Serial.println(error);
+    Serial.print("error: ");
+    if (error == NO_ERROR) {
+      Serial.println("no error");
+    } else if (error == MEMORY_ERROR) {
+      Serial.println("error de memoria");
+    }
   }
   
 }//close loop
@@ -67,6 +73,7 @@ errorType parameter_read_serial(parameterListType *list) {
     if (list->parameter != NULL) {
       for (int i = 0; i < nData; i++) {
         list->parameter[i] = Serial1.read();
+        list->nParameter++;
       }
     } else {
       return MEMORY_ERROR;
@@ -96,7 +103,10 @@ errorType parameter_add(parameterListType *list, int element) {
 
 //function parameter print//////////////////////////////////////////////////
 void parameter_print(parameterListType list) {
+  Serial.print("datos almacenados en lista: ");
+  Serial.println(list.nParameter);
   for (int i = 0; i < list.nParameter; i++) {
+    Serial.print("primer dato: ");
     Serial.println(list.parameter[i]);
   }
 }
